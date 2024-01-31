@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %} 
+    <div class="row">
+        <div class="col-12">
+            <h4>TODOS</h4>
+            <p>A list of all previous todos that have been created.</p>
+        </div>
+
+        <div class="col-12">
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Date Created</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for todo in todos %}
+                        <tr>
+                            <td>{{todo.id}}</td>
+                            <td>{{todo.title}}</td>
+                            <td>{{todo.description}}</td>
+                            <td>{{todo.created_at}}</td>
+                            <td class="hstack gap-2">
+                                <a class="text-primary" href="{% url "todos:edit" todo.id %}" title="Edit todo"><span class="material-symbols-outlined fs-5">edit</span></a>
+                                <a class="text-danger" href="#delete_modal_{{todo.id}}" data-bs-toggle="modal" data-bs-target="#delete_modal_{{todo.id}}" title="Delete todo"><span class="material-symbols-outlined fs-5">delete</span></a>
+
+                                <!-- Todo modal-->
+                                <div class="modal" tabindex="-1" id="delete_modal_{{todo.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Are you sure you want to delete this todo?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div> 
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                            <a href="{% url "todos:delete" todo.id %}" class="btn btn-primary">Delete</a>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                <!-- End Todo modal-->
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
